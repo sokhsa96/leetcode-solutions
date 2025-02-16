@@ -8,13 +8,22 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Ensure repo write access
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4  # Updated to the latest version
 
       - name: Sync LeetCode solutions
-        uses: Yihong0618/leetcode-sync@v1.3
+        uses: yihong0618/leetcode-sync@main
         env:
           LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LEETCODE_LANGUAGE: "Python,C++,JavaScript,TypeScript"
+
+      - name: Debug Information
+        run: echo "LeetCode Sync Workflow Completed"
+
+      - name: Handle Errors
+        if: failure()
+        run: echo "Error occurred during LeetCode sync"
