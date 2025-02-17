@@ -9,13 +9,16 @@ jobs:
   sync:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Ensure repo write access
+      contents: write
+      actions: read  # Added extra permission for actions
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4  # Updated to the latest version
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Ensure the latest changes are fetched
 
       - name: Sync LeetCode solutions
-        uses: yihong0618/leetcode-sync@main
+        uses: yihong0618/leetcode-sync@v1.0.0  # Use a specific version
         env:
           LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
